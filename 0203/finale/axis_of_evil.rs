@@ -21,11 +21,11 @@ fn main() {
 
         let x_idx = (x + 15_000) as usize;
         let y_idx = (y + 15_000) as usize;
-        columns[x_idx].push((i + 1, y_idx));
+        columns[x_idx].push((y_idx, i + 1));
     }
 
     for column in &mut columns {
-        column.sort_by_key(|&(_i, y)| y);
+        column.sort_by_key(|&(y, _i)| y);
     }
 
     let (_k, i, j) = solve(&columns);
@@ -40,9 +40,9 @@ fn solve(columns: &[Vec<(usize, usize)>]) -> (usize, usize, usize) {
         columns[0]
             .windows(2)
             .map(|it| {
-                let i = it[0].0;
-                let j = it[1].0;
-                ((it[1].1 - it[0].1).pow(2), i.min(j), i.max(j))
+                let i = it[0].1;
+                let j = it[1].1;
+                ((it[1].0 - it[0].0).pow(2), i.min(j), i.max(j))
             })
             .min()
             .unwrap_or((usize::MAX / 3, 0, 0))
@@ -63,7 +63,7 @@ fn solve(columns: &[Vec<(usize, usize)>]) -> (usize, usize, usize) {
         let mut combined: Vec<_> = slice
             .into_iter()
             .enumerate()
-            .map(|(x, v)| v.iter().map(move |&(i, y)| (x, y, i)))
+            .map(|(x, v)| v.iter().map(move |&(y, i)| (x, y, i)))
             .flatten()
             .collect();
 

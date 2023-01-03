@@ -37,18 +37,15 @@ fn main() {
 // returns a triple (distance, first index, second index)
 fn solve(columns: &[Vec<(usize, usize)>]) -> (usize, usize, usize) {
     if columns.len() == 1 {
-        match columns[0]
+        columns[0]
             .windows(2)
             .map(|it| {
                 let i = it[0].0;
                 let j = it[1].0;
-                (it[1].1 - it[0].1, i.min(j), i.max(j))
+                ((it[1].1 - it[0].1).pow(2), i.min(j), i.max(j))
             })
             .min()
-        {
-            Some((n, i, j)) => (n.pow(2), i, j),
-            None => (usize::MAX / 3, 0, 0),
-        }
+            .unwrap_or((usize::MAX / 3, 0, 0))
     } else {
         let mid = columns.len() / 2;
         let left = solve(&columns[..mid]);

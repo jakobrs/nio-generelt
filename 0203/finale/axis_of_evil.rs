@@ -42,7 +42,7 @@ fn solve(columns: &[Vec<(usize, usize)>]) -> (usize, usize, usize) {
             .map(|it| {
                 let i = it[0].0;
                 let j = it[1].0;
-                (it[1].1 - it[0].1, i.min(j), i.max(j))
+                (it[1].1.abs_diff(it[0].1), i.min(j), i.max(j))
             })
             .min()
         {
@@ -55,16 +55,11 @@ fn solve(columns: &[Vec<(usize, usize)>]) -> (usize, usize, usize) {
         let right = solve(&columns[mid..]);
 
         let mut best = left.min(right);
-        let k = best.0;
 
-        let dist = (k as f64).sqrt() as usize;
+        let dist = (best.0 as f64).sqrt() as usize;
 
         let lower_bound = mid.saturating_sub(dist);
-        let upper_bound = if mid + dist < columns.len() {
-            mid + dist
-        } else {
-            columns.len()
-        };
+        let upper_bound = (mid + dist).min(columns.len());
 
         let slice = &columns[lower_bound..upper_bound];
 
@@ -76,10 +71,6 @@ fn solve(columns: &[Vec<(usize, usize)>]) -> (usize, usize, usize) {
             .collect();
 
         combined.sort_by_key(|&(_x, y, _i)| y);
-
-        if combined.len() == 0 {
-            return best;
-        }
 
         for i in 0..combined.len() {
             for d in 1..=10 {

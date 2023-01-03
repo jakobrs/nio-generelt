@@ -33,7 +33,7 @@ fn main() {
     println!("{i} {j}");
 }
 
-// columns[x] contains elements of the form (index, y)
+// columns[x] contains elements of the form (y, index)
 // returns a triple (distance, first index, second index)
 fn solve(columns: &[Vec<(usize, usize)>]) -> (usize, usize, usize) {
     if columns.len() == 1 {

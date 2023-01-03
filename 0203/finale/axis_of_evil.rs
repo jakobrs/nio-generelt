@@ -25,7 +25,7 @@ fn main() {
     }
 
     for column in &mut columns {
-        column.sort();
+        column.sort_by_key(|&(_i, y)| y);
     }
 
     let (_k, i, j) = solve(&columns);
@@ -42,7 +42,7 @@ fn solve(columns: &[Vec<(usize, usize)>]) -> (usize, usize, usize) {
             .map(|it| {
                 let i = it[0].0;
                 let j = it[1].0;
-                (it[1].1.abs_diff(it[0].1), i.min(j), i.max(j))
+                (it[1].1 - it[0].1, i.min(j), i.max(j))
             })
             .min()
         {

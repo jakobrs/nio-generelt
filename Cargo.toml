@@ -6,6 +6,10 @@ edition = "2015"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [[bin]]
+name = "spesielle_tall"
+path = "0203/finale/spesielle_tall.rs"
+
+[[bin]]
 name = "alpinanlegg"
 path = "0304/finale/alpinanlegg.rs"
 
